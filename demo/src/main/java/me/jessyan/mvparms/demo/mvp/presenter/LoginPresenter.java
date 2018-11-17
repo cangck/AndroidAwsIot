@@ -11,6 +11,8 @@ import com.jess.arms.http.imageloader.ImageLoader;
 import com.jess.arms.utils.ArmsUtils;
 import com.jess.arms.utils.RxLifecycleUtils;
 
+import java.util.concurrent.TimeUnit;
+
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
@@ -67,13 +69,16 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
 
         mModel.registerUser(username, passwd)
                 .subscribeOn(Schedulers.io())
+                .debounce(2, TimeUnit.SECONDS)
                 .retryWhen(new RetryWithDelay(3, 2))
                 .doOnSubscribe(disposable -> {
                     //开始定于时执行
+                    mRootView.showloading();
                 })
                 .observeOn(AndroidSchedulers.mainThread())
                 .doFinally(() -> {
                     //执行完成之后调用
+                    mRootView.dimissloading();
                 })
                 .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
                 .subscribe(new ErrorHandleSubscriber<Token>(mErrorHandler) {
@@ -86,11 +91,13 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
                             ).subscribe(new ErrorHandleSubscriber<TokenInfo>(mErrorHandler) {
                                 @Override
                                 public void onNext(TokenInfo tokenInfo) {
-
+                                    if (tokenInfo.getCode() == HttpStatus.HTTP_200_OK) {
+                                        ArmsUtils.putStringToSp(mApplication, "token", ArmsUtils.toJson(mApplication, tokenInfo));
+                                        ArmsUtils.makeText(mApplication, ArmsUtils.getStringToSp(mApplication, "token"));
+                                    }
                                 }
                             });
                         }
-
                     }
                 });
     }

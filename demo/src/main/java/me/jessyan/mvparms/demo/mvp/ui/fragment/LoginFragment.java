@@ -20,11 +20,12 @@ import me.jessyan.mvparms.demo.mvp.contract.LoginContract;
 import me.jessyan.mvparms.demo.mvp.presenter.LoginPresenter;
 
 import me.jessyan.mvparms.demo.R;
+import me.jessyan.mvparms.demo.mvp.ui.activity.LoginActivity;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
 
 
-public class LoginFragment extends BaseFragment<LoginPresenter> implements LoginContract.View {
+public class LoginFragment extends BaseFragment<LoginPresenter> implements LoginContract.View,LoginActivity.FragmentBackListener {
 
     public static LoginFragment newInstance() {
         LoginFragment fragment = new LoginFragment();
@@ -116,6 +117,22 @@ public class LoginFragment extends BaseFragment<LoginPresenter> implements Login
 
     @Override
     public void killMyself() {
+
+    }
+
+    @Override
+    public void showloading() {
+
+    }
+
+    @Override
+    public void dimissloading() {
+
+    }
+
+
+    @Override
+    public void onbackForward() {
 
     }
 }

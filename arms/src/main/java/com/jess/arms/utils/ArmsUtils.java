@@ -35,6 +35,7 @@ import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.jess.arms.base.App;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.integration.AppManager;
@@ -503,6 +504,32 @@ public class ArmsUtils {
         Preconditions.checkNotNull(key);
         AppComponent appComponent = obtainAppComponentFromContext(context);
         appComponent.sharedPreferences().edit().remove(key).commit();
+    }
+
+    /**
+     * 对象ToString
+     *
+     * @param context
+     * @param object
+     * @return
+     */
+    public static String toJson(Context context, Object object) {
+        AppComponent appComponent = obtainAppComponentFromContext(context);
+        return appComponent.gson().toJson(object);
+    }
+
+    /**
+     * 字符串from Object
+     *
+     * @param context
+     * @param clazz
+     * @param str
+     * @param <T>
+     * @return
+     */
+    public static <T> T fromJson(Context context, Class<T> clazz, String str) {
+        AppComponent appComponent = obtainAppComponentFromContext(context);
+        return appComponent.gson().fromJson(str, clazz);
     }
 
 
