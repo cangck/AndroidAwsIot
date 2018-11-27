@@ -11,15 +11,42 @@ import java.util.List;
  */
 public class Token {
 
+
     /**
-     * code : 400
-     * extrs : ["A user with that username already exists."]
-     * data : {"username":"11111","password":"11111"}
+     * expire : 300.0
+     * time : 2018-11-17T07:04:42.399741Z
+     * token : eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxNywiZXhwIjoxNTQyNDM4NTgyLCJ1c2VybmFtZSI6ImFkbWluIiwiZW1haWwiOiIifQ.jdWBv8qqIl-jrkUbmRmcqCcmCVNuk2FYDQ0_OvOfJ-A
+     * code : 200
      */
 
+    private String expire;
+    private String time;
+    private String token;
     private int code;
-    private DataBean data;
-    private List<String> extrs;
+
+    public String getExpire() {
+        return expire;
+    }
+
+    public void setExpire(String expire) {
+        this.expire = expire;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
 
     public int getCode() {
         return code;
@@ -29,45 +56,4 @@ public class Token {
         this.code = code;
     }
 
-    public DataBean getData() {
-        return data;
-    }
-
-    public void setData(DataBean data) {
-        this.data = data;
-    }
-
-    public List<String> getExtrs() {
-        return extrs;
-    }
-
-    public void setExtrs(List<String> extrs) {
-        this.extrs = extrs;
-    }
-
-    public static class DataBean {
-        /**
-         * username : 11111
-         * password : 11111
-         */
-
-        private String username;
-        private String password;
-
-        public String getUsername() {
-            return username;
-        }
-
-        public void setUsername(String username) {
-            this.username = username;
-        }
-
-        public String getPassword() {
-            return password;
-        }
-
-        public void setPassword(String password) {
-            this.password = password;
-        }
-    }
 }

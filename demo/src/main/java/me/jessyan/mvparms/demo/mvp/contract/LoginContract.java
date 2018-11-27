@@ -4,6 +4,7 @@ import com.jess.arms.mvp.IView;
 import com.jess.arms.mvp.IModel;
 
 import io.reactivex.Observable;
+import me.jessyan.mvparms.demo.mvp.model.entity.BaseResponse;
 import me.jessyan.mvparms.demo.mvp.model.entity.Token;
 import me.jessyan.mvparms.demo.mvp.model.entity.TokenInfo;
 
@@ -25,7 +26,24 @@ public interface LoginContract {
 
     //Model层定义接口,外部只需关心Model返回的数据,无需关心内部细节,即是否使用缓存
     interface Model extends IModel {
-        Observable<Token> registerUser(String username, String password);
+        /**
+         * 登录接口
+         *
+         * @param username
+         * @param password
+         * @return
+         */
+        Observable<BaseResponse<Token>> login(String username, String password);
+
+        /**
+         * 注册接口
+         *
+         * @param username
+         * @param password
+         * @param code
+         * @return
+         */
+        Observable<BaseResponse<String>> register(String username, String password, String phone, String code, String zone);
 
         Observable<TokenInfo> obtainToken(String username, String password);
     }

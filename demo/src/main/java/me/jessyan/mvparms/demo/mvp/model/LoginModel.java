@@ -12,6 +12,7 @@ import javax.inject.Inject;
 import io.reactivex.Observable;
 import me.jessyan.mvparms.demo.mvp.contract.LoginContract;
 import me.jessyan.mvparms.demo.mvp.model.api.service.UserService;
+import me.jessyan.mvparms.demo.mvp.model.entity.BaseResponse;
 import me.jessyan.mvparms.demo.mvp.model.entity.Token;
 import me.jessyan.mvparms.demo.mvp.model.entity.TokenInfo;
 
@@ -35,15 +36,26 @@ public class LoginModel extends BaseModel implements LoginContract.Model {
         this.mApplication = null;
     }
 
+
     @Override
-    public Observable<Token> registerUser(String username, String passwd) {
+    public Observable<BaseResponse<Token>> login(String username, String password) {
         return mRepositoryManager
                 .obtainRetrofitService(UserService.class)
-                .registerUser(username, passwd);
+                .login(username, password);
     }
 
     @Override
-    public Observable<TokenInfo> obtainToken(String username, String password) {
-        return mRepositoryManager.obtainRetrofitService(UserService.class).getToken(username, password);
+    public Observable<BaseResponse<String>> register(String username, String password, String phone, String code, String zone) {
+        return mRepositoryManager
+                .obtainRetrofitService(UserService.class)
+                .registerUser(username, password, phone, code, zone);
     }
+
+
+    @Override
+    public Observable<TokenInfo> obtainToken(String username, String password) {
+        return null;
+    }
+
+
 }

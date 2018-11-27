@@ -37,7 +37,10 @@
             android:name="me.jessyan.mvparms.demo.app.GlobalConfiguration"
             android:value="ConfigModule" />
 
-        <activity android:name=".mvp.ui.activity.LoginActivity">
+        <activity
+            android:name=".mvp.ui.activity.LoginActivity"
+            android:theme="@style/start_window"
+            android:launchMode="singleInstance">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

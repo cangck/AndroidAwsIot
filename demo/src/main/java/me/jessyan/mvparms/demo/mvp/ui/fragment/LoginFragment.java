@@ -2,30 +2,74 @@ package me.jessyan.mvparms.demo.mvp.ui.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.jess.arms.base.BaseFragment;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.Unbinder;
+import me.jessyan.mvparms.demo.R;
 import me.jessyan.mvparms.demo.di.component.DaggerLoginComponent;
 import me.jessyan.mvparms.demo.di.module.LoginModule;
 import me.jessyan.mvparms.demo.mvp.contract.LoginContract;
 import me.jessyan.mvparms.demo.mvp.presenter.LoginPresenter;
 
-import me.jessyan.mvparms.demo.R;
-import me.jessyan.mvparms.demo.mvp.ui.activity.LoginActivity;
-
 import static com.jess.arms.utils.Preconditions.checkNotNull;
 
 
-public class LoginFragment extends BaseFragment<LoginPresenter> implements LoginContract.View,LoginActivity.FragmentBackListener {
+public class LoginFragment extends BaseFragment<LoginPresenter> implements LoginContract.View {
+
+
+
+    @BindView(R.id.login_username)
+    EditText loginUsername;
+    @BindView(R.id.login_passwd)
+    EditText loginPasswd;
+    @BindView(R.id.login_code)
+    EditText loginCode;
+    @BindView(R.id.tv_getcode)
+    TextView tvGetcode;
+    @BindView(R.id.ll_code)
+    LinearLayout llCode;
+    @BindView(R.id.register)
+    Button register;
+    @BindView(R.id.register_checkbox)
+    CheckBox registerCheckbox;
+    @BindView(R.id.rl_register)
+    RelativeLayout rlRegister;
+    @BindView(R.id.login)
+    Button login;
+    @BindView(R.id.register_count)
+    TextView registerCount;
+    @BindView(R.id.forget_account)
+    TextView forgetAccount;
+    @BindView(R.id.rl_login)
+    RelativeLayout rlLogin;
+    @BindView(R.id.weibao)
+    ImageView weibao;
+    @BindView(R.id.weixin)
+    ImageView weixin;
+    @BindView(R.id.third_login)
+    RelativeLayout thirdLogin;
+    @BindView(R.id.login_container)
+    LinearLayout loginContainer;
+    Unbinder unbinder;
 
     public static LoginFragment newInstance() {
         LoginFragment fragment = new LoginFragment();
@@ -44,50 +88,24 @@ public class LoginFragment extends BaseFragment<LoginPresenter> implements Login
 
     @Override
     public View initView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_login, container, false);
+        View view = inflater.inflate(R.layout.fragment_login, container, false);
+        unbinder = ButterKnife.bind(LoginFragment.this, view);
+        return view;
     }
+
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
+        thirdLogin.setVisibility(View.VISIBLE);
+        rlLogin.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
 
     }
 
-    /**
-     * 通过此方法可以使 Fragment 能够与外界做一些交互和通信, 比如说外部的 Activity 想让自己持有的某个 Fragment 对象执行一些方法,
-     * 建议在有多个需要与外界交互的方法时, 统一传 {@link Message}, 通过 what 字段来区分不同的方法, 在 {@link #setData(Object)}
-     * 方法中就可以 {@code switch} 做不同的操作, 这样就可以用统一的入口方法做多个不同的操作, 可以起到分发的作用
-     * <p>
-     * 调用此方法时请注意调用时 Fragment 的生命周期, 如果调用 {@link #setData(Object)} 方法时 {@link Fragment#onCreate(Bundle)} 还没执行
-     * 但在 {@link #setData(Object)} 里却调用了 Presenter 的方法, 是会报空的, 因为 Dagger 注入是在 {@link Fragment#onCreate(Bundle)} 方法中执行的
-     * 然后才创建的 Presenter, 如果要做一些初始化操作,可以不必让外部调用 {@link #setData(Object)}, 在 {@link #initData(Bundle)} 中初始化就可以了
-     * <p>
-     * Example usage:
-     * <pre>
-     * public void setData(@Nullable Object data) {
-     *     if (data != null && data instanceof Message) {
-     *         switch (((Message) data).what) {
-     *             case 0:
-     *                 loadData(((Message) data).arg1);
-     *                 break;
-     *             case 1:
-     *                 refreshUI();
-     *                 break;
-     *             default:
-     *                 //do something
-     *                 break;
-     *         }
-     *     }
-     * }
-     *
-     * // call setData(Object):
-     * Message data = new Message();
-     * data.what = 0;
-     * data.arg1 = 1;
-     * fragment.setData(data);
-     * </pre>
-     *
-     * @param data 当不需要参数时 {@code data} 可以为 {@code null}
-     */
     @Override
     public void setData(@Nullable Object data) {
 
@@ -132,7 +150,41 @@ public class LoginFragment extends BaseFragment<LoginPresenter> implements Login
 
 
     @Override
-    public void onbackForward() {
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+    }
 
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+    }
+
+    @OnClick({
+            R.id.register_count,
+            R.id.forget_account
+    })
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.register_count:
+                RegisterFragment registerFragment = RegisterFragment.newInstance();
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, registerFragment).commit();
+                break;
+            case R.id.forget_account:
+                ForgetFragment forgetFragment = ForgetFragment.newInstance();
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, forgetFragment).commit();
+                break;
+        }
     }
 }

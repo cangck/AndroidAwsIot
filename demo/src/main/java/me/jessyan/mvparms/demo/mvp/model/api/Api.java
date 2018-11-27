@@ -26,5 +26,5 @@ package me.jessyan.mvparms.demo.mvp.model.api;
  */
 public interface Api {
     String APP_DOMAIN = "https://ec2-54-173-30-46.compute-1.amazonaws.com";
-    String RequestSuccess = "0";
+    String RequestSuccess = "200";
 }

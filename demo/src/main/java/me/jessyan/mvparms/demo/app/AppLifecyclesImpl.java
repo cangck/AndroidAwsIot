@@ -22,6 +22,7 @@ import android.support.annotation.NonNull;
 import com.jess.arms.base.delegate.AppLifecycles;
 import com.jess.arms.integration.cache.IntelligentCache;
 import com.jess.arms.utils.ArmsUtils;
+import com.mob.MobSDK;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
 
@@ -73,6 +74,11 @@ public class AppLifecyclesImpl implements AppLifecycles {
         ArmsUtils.obtainAppComponentFromContext(application).extras()
                 .put(IntelligentCache.getKeyOfKeep(RefWatcher.class.getName())
                         , BuildConfig.USE_CANARY ? LeakCanary.install(application) : RefWatcher.DISABLED);
+        /**
+         * 初始化SDk
+         */
+        MobSDK.init(application);
+
     }
 
     @Override

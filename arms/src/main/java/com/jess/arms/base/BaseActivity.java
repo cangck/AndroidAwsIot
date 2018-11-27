@@ -97,11 +97,19 @@ public abstract class BaseActivity<P extends IPresenter> extends AppCompatActivi
                 //绑定到butterknife
                 mUnbinder = ButterKnife.bind(this);
             }
+            initViewBefore();
         } catch (Exception e) {
             if (e instanceof InflateException) throw e;
             e.printStackTrace();
         }
         initData(savedInstanceState);
+    }
+
+    /**
+     * 初始化View完成之后
+     */
+    public void initViewBefore() {
+
     }
 
     @Override

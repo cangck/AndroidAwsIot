@@ -18,6 +18,7 @@ package me.jessyan.mvparms.demo.mvp.model.api.service;
 import java.util.List;
 
 import io.reactivex.Observable;
+import me.jessyan.mvparms.demo.mvp.model.entity.BaseResponse;
 import me.jessyan.mvparms.demo.mvp.model.entity.Token;
 import me.jessyan.mvparms.demo.mvp.model.entity.TokenInfo;
 import me.jessyan.mvparms.demo.mvp.model.entity.User;
@@ -48,7 +49,15 @@ public interface UserService {
 
     @POST("register/")
     @FormUrlEncoded
-    Observable<Token> registerUser(@Field("username") String username, @Field("password") String password);
+    Observable<BaseResponse<String>> registerUser(@Field("username") String username,
+                                                  @Field("password") String password,
+                                                  @Field("phone") String phone,
+                                                  @Field("code") String code,
+                                                  @Field("zone") String zone);
+
+    @POST("login/")
+    @FormUrlEncoded
+    Observable<BaseResponse<Token>> login(@Field("username") String username, @Field("password") String password);
 
     @POST("api-token-auth/")
     @FormUrlEncoded
